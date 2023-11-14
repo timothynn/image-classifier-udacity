@@ -231,21 +231,21 @@ def build_classifier(model, args, dataloaders):
         h_list = hid_size[args.arch]
 
     h_layers = [nn.Linear(in_size[args.arch], h_list[0])]
-    h_layers.append(relu)
+    h_layers.append(relu) # type: ignore
     if args.arch[:3] == 'vgg':
-        h_layers.append(dropout)
+        h_layers.append(dropout) # type: ignore
 
     if len(h_list) > 1:
         h_sz = zip(h_list[:-1], h_list[1:])
         for h1,h2 in h_sz:
             h_layers.append(nn.Linear(h1, h2))
-            h_layers.append(relu)
+            h_layers.append(relu) # type: ignore
             if args.arch[:3] == 'vgg':
-                h_layers.append(dropout)
+                h_layers.append(dropout) # type: ignore
 
     last = nn.Linear(h_list[-1], output_size)
     h_layers.append(last)
-    h_layers.append(output)
+    h_layers.append(output) # type: ignore
 
     print(h_layers)
     model.classifier = nn.Sequential(*h_layers)
